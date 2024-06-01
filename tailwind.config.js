@@ -78,6 +78,7 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate"), require("daisyui"), typography],
   daisyui: {
-    themes: ["wireframe"],
+    themes: [],
+    base: false,
   },
 };

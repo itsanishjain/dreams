@@ -4,7 +4,6 @@
 
 /* ShadcnUI */
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -51,8 +50,6 @@
     --ring: 142.4 71.8% 29.2%;
   }
 }
-
-
 
 /* Blog */
 

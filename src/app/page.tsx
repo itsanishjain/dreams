@@ -238,6 +238,7 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-center text-2xl mt-4">Dreams</h1>
+      <p className="btn">Hello</p>
     </div>
   );
 }

@@ -1,21 +1,82 @@
 "use client";
 
-// import { authenticate } from "@/lib/actions";
-import { lusitana } from "@/lib/fonts";
 import { Textarea } from "@/components/ui/textarea";
-
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
-import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "@/components/ui/button";
-import { useFormState, useFormStatus } from "react-dom";
 import { useState } from "react";
 
 export default function ContentForm() {
+  const [streamDream, setStreamDream] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const decodeDreams = async (e: any) => {
+    setStreamDream("");
+    e.preventDefault();
+    setLoading(true);
+    const response = await fetch("http://127.0.0.1:8787", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Running....");
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    // This data is a ReadableStream
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+    let text = "";
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value, { stream: !done });
+      text += chunkValue;
+
+      // Process each line in the chunk
+      const lines = text.split("\n");
+      text = lines.pop() || "";
+
+      for (const line of lines) {
+        if (line.startsWith("data: ")) {
+          const jsonData = line.substring(6);
+          if (jsonData === "[DONE]") {
+            done = true;
+            break;
+          }
+          try {
+            const jsonResponse = JSON.parse(jsonData);
+            setStreamDream((prev) => prev + jsonResponse.response);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+          }
+        }
+      }
+    }
+
+    // Handle any remaining text after the loop
+    if (text.startsWith("data: ")) {
+      const jsonData = text.substring(6);
+      if (jsonData !== "[DONE]") {
+        try {
+          const jsonResponse = JSON.parse(jsonData);
+          setStreamDream((prev) => prev + jsonResponse.response);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      }
+    }
+
+    setLoading(false);
+  };
 
   return (
     <div className="space-y-4">
@@ -40,22 +101,19 @@ export default function ContentForm() {
               </div>
             </div>
           </div>
-          <Button className="mt-4" size="lg">
-            Decode
-          </Button>
+          {loading ? (
+            <Button className="mt-4" size="lg">
+              Loading...
+            </Button>
+          ) : (
+            <Button className="mt-4" size="lg" onClick={(e) => decodeDreams(e)}>
+              Decode
+            </Button>
+          )}
         </div>
       </form>
       <p>Response</p>
+      <div>{streamDream != "" ? <div>{streamDream}</div> : "NO"}</div>
     </div>
-  );
-}
-
-function LoginButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button className="mt-4 w-full" aria-disabled={pending}>
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
   );
 }

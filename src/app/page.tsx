@@ -10,6 +10,8 @@ import { AWS_S3_BUCKET_NAME, AWS_BASE_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import clsx from "clsx";
+import SideNavbar from "@/components/Sidenavbar";
+import ContentForm from "@/components/content-form";
 
 export default function Home() {
   const [imagePreview, setImagePreview] = useState({
@@ -238,7 +240,9 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-center text-2xl mt-4">Dreams</h1>
-      <p className="btn">Hello</p>
+      <div className="p-2">
+        <ContentForm />
+      </div>
     </div>
   );
 }

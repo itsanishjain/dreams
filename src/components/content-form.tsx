@@ -5,53 +5,80 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 export default function ContentForm() {
+  const [text, setText] = useState("");
   const [streamDream, setStreamDream] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const decodeDreams = async (e: any) => {
+  const decodeDreams = async (e: any, dreamText: string) => {
     setStreamDream("");
     e.preventDefault();
+
+    console.log("Dream TEXT>>>>>", dreamText);
     setLoading(true);
-    const response = await fetch("http://127.0.0.1:8787", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("Running....");
+    const localURl = "http://127.0.0.1:8787";
+    const deployedUrl = "https://wild-sky-9bb0.helloanishjain.workers.dev";
+    try {
+      const response = await fetch(localURl, {
+        // mode: "no-cors",
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //   dreamText,
+        // }),
+      });
+      console.log("Running....");
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
+      console.log("responsae>>>>>>>>>>>>>>>>>>>>>", response);
+      // setLoading(false);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
 
-    // This data is a ReadableStream
-    const data = response.body;
-    if (!data) {
-      return;
-    }
+      // This data is a ReadableStream
+      const data = response.body;
+      if (!data) {
+        return;
+      }
 
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-    let text = "";
+      const reader = data.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
+      let text = "";
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value, { stream: !done });
-      text += chunkValue;
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value, { stream: !done });
+        text += chunkValue;
 
-      // Process each line in the chunk
-      const lines = text.split("\n");
-      text = lines.pop() || "";
+        // Process each line in the chunk
+        const lines = text.split("\n");
+        text = lines.pop() || "";
 
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const jsonData = line.substring(6);
-          if (jsonData === "[DONE]") {
-            done = true;
-            break;
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const jsonData = line.substring(6);
+            if (jsonData === "[DONE]") {
+              done = true;
+              break;
+            }
+            try {
+              const jsonResponse = JSON.parse(jsonData);
+              setStreamDream((prev) => prev + jsonResponse.response);
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+            }
           }
+        }
+      }
+
+      // Handle any remaining text after the loop
+      if (text.startsWith("data: ")) {
+        const jsonData = text.substring(6);
+        if (jsonData !== "[DONE]") {
           try {
             const jsonResponse = JSON.parse(jsonData);
             setStreamDream((prev) => prev + jsonResponse.response);
@@ -60,22 +87,14 @@ export default function ContentForm() {
           }
         }
       }
-    }
 
-    // Handle any remaining text after the loop
-    if (text.startsWith("data: ")) {
-      const jsonData = text.substring(6);
-      if (jsonData !== "[DONE]") {
-        try {
-          const jsonResponse = JSON.parse(jsonData);
-          setStreamDream((prev) => prev + jsonResponse.response);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      }
+      setLoading(false);
+      // return;
+    } catch (error) {
+      console.log("FUCKUBG ERRIOR", error);
+      setLoading(false);
+      // return;
     }
-
-    setLoading(false);
   };
 
   return (
@@ -97,6 +116,8 @@ export default function ContentForm() {
                   name="dream"
                   placeholder="type your dream"
                   required
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                 />
               </div>
             </div>
@@ -106,7 +127,11 @@ export default function ContentForm() {
               Loading...
             </Button>
           ) : (
-            <Button className="mt-4" size="lg" onClick={(e) => decodeDreams(e)}>
+            <Button
+              className="mt-4"
+              size="lg"
+              onClick={(e) => decodeDreams(e, text)}
+            >
               Decode
             </Button>
           )}

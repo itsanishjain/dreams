@@ -1,16 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactStrictMode: false,
-  webpack: (config) => {
-    config.externals.push({
-      "utf-8-validate": "commonjs utf-8-validate",
-      bufferutil: "commonjs bufferutil",
-      canvas: "commonjs canvas",
-      canvg: "canvg",
-    });
-    // config.infrastructureLogging = { debug: /PackFileCache/ };
-    return config;
-  },
   images: {
     domains: ["overpassip.s3.amazonaws.com", "s3.amazonaws.com"],
   },

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { lusitana } from "@/lib/fonts";
 import clsx from "clsx";
 import { menuItems } from "./FeatureCard";
+import { EmailJoin } from "./EmailJoin";
 
 export default function ContentForm() {
   const [text, setText] = useState("");
@@ -282,6 +283,14 @@ export default function ContentForm() {
             <Card title={type} value={value} key={type} />
           ))}
         </div>
+      </div>
+      {/* Join  */}
+
+      <div>
+        <h3 className={clsx(lusitana.className, "text-center mt-8 text-2xl")}>
+          Join Us
+        </h3>
+        <EmailJoin />
       </div>
     </div>
   );

@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1717526109442,
+      "tag": "0000_bitter_firebrand",
+      "breakpoints": true
+    }
+  ]
+}

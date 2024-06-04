@@ -3,7 +3,7 @@
 import { PropsWithChildren, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import { Price } from "../../../drizzle/schema";
+import { Price } from "../../drizzle/schema";
 
 interface PricingCardProps {
   title: string;

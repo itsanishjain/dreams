@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { LOCAL_API_URL, DEPLOYED_API_URL } from "@/lib/constants";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function ContentForm() {
   const [text, setText] = useState("");

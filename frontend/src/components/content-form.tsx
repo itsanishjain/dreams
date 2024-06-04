@@ -7,6 +7,7 @@ import { LOCAL_API_URL, DEPLOYED_API_URL } from "@/lib/constants";
 import toast from "react-hot-toast";
 import { lusitana } from "@/lib/fonts";
 import clsx from "clsx";
+import { menuItems } from "./FeatureCard";
 
 export default function ContentForm() {
   const [text, setText] = useState("");
@@ -213,7 +214,7 @@ export default function ContentForm() {
               </label>
               <div className="relative">
                 <Textarea
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500"
+                  className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 h-[150px]"
                   id="dream"
                   name="dream"
                   placeholder="type your dream"
@@ -271,6 +272,17 @@ export default function ContentForm() {
           ))}
         </div>
       ) : null}
+
+      <div>
+        <h3 className={clsx(lusitana.className, "text-center mt-8 text-2xl")}>
+          Upcoming Features
+        </h3>
+        <div className="mt-4 grid md:grid-cols-3 gap-4">
+          {Object.entries(menuItems).map(([type, value]) => (
+            <Card title={type} value={value} key={type} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

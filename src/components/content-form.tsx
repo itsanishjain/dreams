@@ -15,12 +15,12 @@ export default function ContentForm() {
 
     console.log("Dream TEXT>>>>>", dreamText);
     setLoading(true);
-    const localURl = "http://127.0.0.1:8787";
-    const deployedUrl = "https://wild-sky-9bb0.helloanishjain.workers.dev";
+
     const honolocalUrl = "http://127.0.0.1:52430";
+    const honolocalDeployedUrl =
+      "https://backend-worker.helloanishjain.workers.dev";
     try {
-      const response = await fetch(honolocalUrl, {
-        // mode: "no-cors",
+      const response = await fetch(honolocalDeployedUrl, {
         method: "POST",
         headers: {
           Accept: "*/*",

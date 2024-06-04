@@ -14,24 +14,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use(cors());
 
 app.get("/", async (c) => {
-  // return c.text('Hello Hono!')
-  const prompt = "what is life";
-
-  try {
-    const stream = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", {
-      prompt: prompt,
-      stream: true,
-    });
-
-    // return new Response(JSON.stringify(stream));
-    return new Response(stream, {
-      headers: { "content-type": "text/event-stream" },
-    });
-    // return new Response(stream, { headers: { 'content-type': 'text/event-stream' } });
-  } catch (error) {
-    console.log(error);
-    return c.text("Error");
-  }
+  return c.text("Hello Hono!");
 });
 
 app.post("/", async (c) => {

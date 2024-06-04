@@ -138,8 +138,16 @@ export default function ContentForm() {
           </div>
         </div>
       </form>
-      <p>Response</p>
-      <div>{streamDream != "" ? <div>{streamDream}</div> : "NO"}</div>
+      <p>Response:</p>
+      <div>
+        {streamDream != "" ? (
+          <div className="flex-1 rounded-lg bg-secondary px-6 p-2">
+            {streamDream}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }

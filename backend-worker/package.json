@@ -4,7 +4,6 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "hono": "^4.4.2"
   },
   "devDependencies": {

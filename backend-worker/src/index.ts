@@ -47,4 +47,47 @@ app.post("/", async (c) => {
   }
 });
 
+app.post("/analysis", async (c) => {
+  const body = await c.req.json();
+
+  const dreamText = body.dreamText;
+
+  const prompt = `Please return the following analysis as JSON, without any additional explanation or text:
+
+Dream: ${dreamText}
+
+{
+ "isFunny": [a number between 0-100 representing how funny the dream is],
+ "isDark": [a number between 0-100 representing how dark or disturbing the dream is], 
+ "isFrightening": [a number between 0-100 representing how frightening the dream is],
+ "isAnxious": [a number between 0-100 representing how anxiety-inducing the dream is],
+ "isSad": [a number between 0-100 representing how sad the dream is],
+ "isJoyful": [a number between 0-100 representing how joyful the dream is],
+ "isConfusing": [a number between 0-100 representing how confusing the dream is],
+ "isExhilarating": [a number between 0-100 representing how exhilarating the dream is],
+ "isEmbarrassing": [a number between 0-100 representing how embarrassing the dream is],
+ "isErotic": [a number between 0-100 representing how erotic the dream is],
+ "isNostalgic": [a number between 0-100 representing how nostalgic the dream is],
+ "isSurreal": [a number between 0-100 representing how surreal the dream is],
+ "isLucid": [a number between 0-100 representing how lucid the dream is],
+ "isRecurring": [a number between 0-100 representing how recurring the dream is],
+ "symbolism": [an array of strings representing any symbolism or symbolic elements in the dream]
+}
+`;
+
+  try {
+    const stream = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", {
+      prompt: prompt,
+      stream: true,
+    });
+
+    return new Response(stream, {
+      headers: { "content-type": "text/event-stream" },
+    });
+  } catch (error) {
+    console.log(error);
+    return c.text("Error");
+  }
+});
+
 export default app;

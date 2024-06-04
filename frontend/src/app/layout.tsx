@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import MainNavbar from "@/components/MainNavbar";
 
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,8 +29,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MainNavbar />
-          {children}
-          <Toaster />
+          <div className="flex flex-col min-h-screen">
+            <div className="mb-auto">{children}</div>
+            <Toaster />
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

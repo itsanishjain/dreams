@@ -11,7 +11,7 @@
     "push": "drizzle-kit push:pg",
     "studio": "drizzle-kit studio",
     "pull": "drizzle-kit introspect:pg",
-    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=WaitInQueue"
+    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=Dreams"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.3",

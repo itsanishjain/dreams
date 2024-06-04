@@ -1,25 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
-// import { auth, signOut } from "@/auth";
-// import SignOut from "./SignOut";
 
 const navItems = {
   "/": {
-    name: "Features",
+    name: "Dreams",
   },
   "/blog": {
     name: "Blogs",
   },
-  "/#pricing": {
-    name: "Pricing",
-  },
-  "/dashboard": {
-    name: "Dashboard",
-  },
+  // "/#pricing": {
+  //   name: "Pricing",
+  // },
+  // "/dashboard": {
+  //   name: "Dashboard",
+  // },
 };
 
 export default async function MainNavbar() {
-  //   const session = await auth();
   return (
     <div className="navbar border-b-2 border-y-gray-300">
       <div className="navbar-start">
@@ -42,21 +39,23 @@ export default async function MainNavbar() {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+            className="menu dropdown-content menu-sm z-[1] mt-3 w-52 bg-accent p-2 shadow"
           >
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
-                <li key={path} className="py-1 md:hidden">
-                  <a>{name}</a>
-                </li>
+                <Link
+                  key={path}
+                  className="md:hidden rounded-md p-2 hover:bg-secondary md:flex"
+                  href={path}
+                >
+                  {name}
+                </Link>
               );
             })}
           </ul>
         </div>
         <Link href="/">
-          <span className="h-full w-full rounded-full">
-            <Image src="/logo.png" width={50} height={50} alt="logo" />
-          </span>
+          <span className="h-full w-full rounded-full text-4xl">😴</span>
         </Link>
       </div>
       <div className="navbar-center">

@@ -3,6 +3,8 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { LOCAL_API_URL, DEPLOYED_API_URL } from "@/lib/constants";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ContentForm() {
   const [text, setText] = useState("");
@@ -10,17 +12,18 @@ export default function ContentForm() {
   const [loading, setLoading] = useState(false);
 
   const decodeDreams = async (e: any, dreamText: string) => {
+    if (dreamText == "") {
+      toast.error("Please type your dream");
+      return;
+    }
     setStreamDream("");
     e.preventDefault();
 
-    console.log("Dream TEXT>>>>>", dreamText);
     setLoading(true);
-
-    const honolocalUrl = "http://127.0.0.1:52430";
-    const honolocalDeployedUrl =
-      "https://backend-worker.helloanishjain.workers.dev";
+    const url =
+      process.env.NODE_ENV != "development" ? DEPLOYED_API_URL : LOCAL_API_URL;
     try {
-      const response = await fetch(honolocalDeployedUrl, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           Accept: "*/*",
@@ -30,10 +33,7 @@ export default function ContentForm() {
           dreamText,
         }),
       });
-      console.log("Running....");
 
-      console.log("responsae>>>>>>>>>>>>>>>>>>>>>", response);
-      // setLoading(false);
       if (!response.ok) {
         throw new Error(response.statusText);
       }
@@ -90,11 +90,9 @@ export default function ContentForm() {
       }
 
       setLoading(false);
-      // return;
     } catch (error) {
       console.log("FUCKUBG ERRIOR", error);
       setLoading(false);
-      // return;
     }
   };
 
@@ -123,19 +121,21 @@ export default function ContentForm() {
               </div>
             </div>
           </div>
-          {loading ? (
-            <Button className="mt-4" size="lg">
-              Loading...
-            </Button>
-          ) : (
-            <Button
-              className="mt-4"
-              size="lg"
-              onClick={(e) => decodeDreams(e, text)}
-            >
-              Decode
-            </Button>
-          )}
+          <div className="flex justify-center items-center">
+            {loading ? (
+              <Button className="mt-4" size="lg">
+                Loading...
+              </Button>
+            ) : (
+              <Button
+                className="mt-4"
+                size="lg"
+                onClick={(e) => decodeDreams(e, text)}
+              >
+                Decode
+              </Button>
+            )}
+          </div>
         </div>
       </form>
       <p>Response</p>

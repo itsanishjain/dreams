@@ -1,10 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-export interface Env {
-  AI: any;
-}
-
 type Bindings = {
   AI: any;
 };
@@ -22,19 +18,19 @@ app.post("/", async (c) => {
 
   console.log(body);
   const dreamText = body.dreamText;
+  // const prompt = `Provide an in-depth and engaging interpretation of the following dream, using creative language and storytelling techniques to delve into the dream's unique features, underlying meanings, and potential significance. Emphasize psychological insights, cultural/symbolic references, and any special characteristics. Maintain a positive, informative, and empathetic tone.
+
+  // Dream: ${dreamText}
+
+  // Interpretation:`;
+
   const prompt = `
-			Provide an in-depth and engaging interpretation of the following dream, including numeric analysis for "darkness" and "funny" aspects, and any other relevant insights. Return the interpretation and analysis in JSON format.
+    Provide an in-depth and engaging interpretation of the following dream, using creative language and storytelling techniques to delve into the dream's unique features, underlying meanings, and potential significance. Emphasize psychological insights, cultural/symbolic references, and any special characteristics. Maintain a positive, informative, and empathetic tone. Ensure that the entire interpretation is included in the response, without any part being cut off or truncated.
 
-			Dream: ${dreamText}
+    Dream: ${dreamText}
 
-			Interpretation:
-			Use creative language and storytelling techniques to delve into the dream's unique features, underlying meanings, and potential significance. Emphasize psychological insights, cultural/symbolic references, and any special characteristics. Maintain a positive, informative, and empathetic tone.
-
-			Analysis:
-			- Dark: [a number between 0-100]
-			- Funny: [a number between 0-100]
-			- Additional Analysis: [any other relevant metrics or insights]
-			`;
+    Interpretation:
+  `;
 
   try {
     const stream = await c.env.AI.run("@cf/meta/llama-3-8b-instruct", {
@@ -42,11 +38,9 @@ app.post("/", async (c) => {
       stream: true,
     });
 
-    // return new Response(JSON.stringify(stream));
     return new Response(stream, {
       headers: { "content-type": "text/event-stream" },
     });
-    // return new Response(stream, { headers: { 'content-type': 'text/event-stream' } });
   } catch (error) {
     console.log(error);
     return c.text("Error");

@@ -1,9 +1,9 @@
 "use client";
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 
 import { useRouter } from "next/navigation";
-import { Price } from "../../drizzle/schema";
+// import { Price } from "../../drizzle/schema";
 
 interface PricingCardProps {
   title: string;
@@ -14,7 +14,7 @@ interface PricingCardProps {
   priceId?: string;
 }
 
-const priceData: Price = {
+const priceData: any = {
   id: "",
   active: true,
   prodcuctId: "prod_PLmOlRQ1tafJrK",

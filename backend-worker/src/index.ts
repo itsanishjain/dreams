@@ -18,11 +18,6 @@ app.post("/", async (c) => {
 
   console.log(body);
   const dreamText = body.dreamText;
-  // const prompt = `Provide an in-depth and engaging interpretation of the following dream, using creative language and storytelling techniques to delve into the dream's unique features, underlying meanings, and potential significance. Emphasize psychological insights, cultural/symbolic references, and any special characteristics. Maintain a positive, informative, and empathetic tone.
-
-  // Dream: ${dreamText}
-
-  // Interpretation:`;
 
   const prompt = `
     Provide an in-depth and engaging interpretation of the following dream, using creative language and storytelling techniques to delve into the dream's unique features, underlying meanings, and potential significance. Emphasize psychological insights, cultural/symbolic references, and any special characteristics. Maintain a positive, informative, and empathetic tone. Ensure that the entire interpretation is included in the response, without any part being cut off or truncated.

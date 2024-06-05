@@ -3,6 +3,6 @@ import postgres from "postgres";
 
 import * as schema from "../drizzle/schema";
 
-const sql = postgres(process.env.POSTGRES_URL!);
+const sql = postgres(process.env.DATABASE_URL!);
 
 export const db = drizzle(sql, { schema });

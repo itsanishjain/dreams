@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { addEmail } from "@/lib/actions";
+import toast from "react-hot-toast";
 
 export function EmailJoin() {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ export function EmailJoin() {
           setLoading(true);
           await addEmail(email);
           setLoading(false);
+          toast.success("joined successfully");
         }}
         size="lg"
       >

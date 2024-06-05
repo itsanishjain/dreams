@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FeedBack } from "./FeedBack";
 
 const navItems = {
   "/": {
@@ -74,24 +75,7 @@ export default async function MainNavbar() {
         </ul>
       </div>
       <div className="navbar-end text-lg">
-        {/* {session ? (
-          <SignOut />
-        ) : (
-          <>
-            <Link
-              href="/auth/login"
-              className="rounded-md p-2 hover:bg-base-300"
-            >
-              Login
-            </Link>
-            <Link
-              href="/auth/login"
-              className="rounded-md p-2 hover:bg-base-300"
-            >
-              Signup
-            </Link>
-          </>
-        )} */}
+        <FeedBack />
       </div>
     </div>
   );

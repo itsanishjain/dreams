@@ -13,6 +13,16 @@ export const users = pgTable("users", {
     .notNull(),
 });
 
+export const feedback = pgTable("feedback", {
+  text: text("text").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});
+
 export const songs = pgTable("songs", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   userId: uuid("user_id")

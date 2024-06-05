@@ -1,5 +1,5 @@
-import { getBlogPosts } from '@/lib/blog';
-import { getURL } from '@/lib/utils';
+import { getBlogPosts } from "@/lib/blog";
+import { getURL } from "@/lib/helpers";
 
 export default async function sitemap() {
   const baseUrl = getURL();
@@ -9,19 +9,19 @@ export default async function sitemap() {
   }));
 
   let routes = [
-    '',
-    '/auth',
-    '/blog',
-    '/privacy-policy',
-    '/cookie-policy',
-    '/terms-of-service',
-    '/cancellation',
-    '/support',
-    '/dashboard',
-    '/about',
+    "",
+    "/auth",
+    "/blog",
+    "/privacy-policy",
+    "/cookie-policy",
+    "/terms-of-service",
+    "/cancellation",
+    "/support",
+    "/dashboard",
+    "/about",
   ].map((route) => ({
     url: `${baseUrl}/${route}`,
-    lastModified: new Date().toISOString().split('T')[0],
+    lastModified: new Date().toISOString().split("T")[0],
   }));
 
   return [...routes, ...blogs];

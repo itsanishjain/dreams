@@ -80,6 +80,16 @@
   html {
     min-width: 360px;
   }
+
+  .prose-markdown {
+    @apply relative visible no-underline;
+  
+    margin-left: 0;
+    padding-right: 0.5em;
+    width: 100%;
+    max-width: 100%;
+    cursor: pointer;
+  }
   
   .prose .anchor {
     @apply absolute invisible no-underline;

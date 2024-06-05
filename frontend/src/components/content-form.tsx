@@ -9,6 +9,7 @@ import { lusitana } from "@/lib/fonts";
 import clsx from "clsx";
 import { menuItems } from "./FeatureCard";
 import { EmailJoin } from "./EmailJoin";
+import Markdown from "react-markdown";
 
 export default function ContentForm() {
   const [text, setText] = useState("");
@@ -259,10 +260,10 @@ export default function ContentForm() {
         </div>
       </form>
       <p className={clsx(lusitana.className, "text-2xl")}>{whatButton}</p>
-      <div>
-        {streamDream != "" ? (
-          <div className="flex-1 rounded-lg bg-secondary px-6 p-2">
-            {streamDream}
+      <div className="mt-4 prose-markdown prose-lg">
+        {streamDream !== "" ? (
+          <div className="flex-1 rounded-lg bg-secondary px-6 py-4">
+            <Markdown>{streamDream}</Markdown>
           </div>
         ) : null}
       </div>
